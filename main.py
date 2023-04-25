@@ -1,9 +1,9 @@
 import sqlite3
 
 import admin
-import user
-import new_user
-import user
+import student
+import new_student
+import student
 import admin
 
 def main():
@@ -24,7 +24,7 @@ def main():
                 case 1:     # User Login 
                     UID = int(input("Enter UID: "))
                     password = input("Enter Password: ")
-                    login_success = user.main(UID=UID, password=password)
+                    login_success = student.main(UID=UID, password=password)
                     if (login_success==0):
                         print("Login failed. Try again")
 
@@ -58,18 +58,18 @@ def main():
                     address = input("Enter Address: ")
                     
 
-                    new_UID = new_user.generate_UID()
+                    new_UID = new_student.generate_UID()
 
                     password_success = 0
                     while (password_success==0):
                         print("Your new UID is {}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
                         password = input("Enter password: ")
-                        password_success = new_user.check_password(password)
+                        password_success = new_student.check_password(password)
                         if (password_success==0):
                             print("Password does not meet requirement, try again.\n")
                             continue
                     
-                    new_user.create_new(UID=new_UID, 
+                    new_student.create_new(UID=new_UID, 
                                         first_name=first_name, 
                                         last_name=last_name, 
                                         DOB=birth, 
