@@ -8,16 +8,16 @@ All functionalities related to creating a new user:
 import sqlite3
 from random import randint
 
-user_conn = sqlite3.connect("user.db")
-user_cursor = user_conn.cursor()
+conn = sqlite3.connect("Database.db")
+cursor = conn.cursor()
 
 # Generating a unique UID
 def generate_UID():        # return available UID
     new_UID = 0000000
     while (True):
         new_UID = randint(1000000, 9999999)      # a proposed UID for the new user; can be any 7 digit number
-        user_cursor.execute("SELECT * FROM user WHERE UID=?", (new_UID,))
-        query = user_cursor.fetchall()      # obtaining query results
+        cursor.execute("SELECT * FROM user WHERE UID=?", (new_UID,))
+        query = cursor.fetchall()      # obtaining query results
         if len(query) == 0:     # condition for proposed UID to be unique
             break
 
@@ -51,6 +51,6 @@ def check_password(ToCheck):        # return 0 is password does not meet require
 
 # Inserting the new user into the database
 def create_new(UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password):      # void function??
-    user_cursor.execute("INSERT INTO user VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    cursor.execute("INSERT INTO user VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                         (UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password,))
-    user_cursor.commit()
+    cursor.commit()
