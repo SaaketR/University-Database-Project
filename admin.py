@@ -13,7 +13,7 @@ admin_cursor = admin_conn.cursor()
 
 def main(username, password):      # returns 0 for unsuccessful login and 1 for successful login
     EXIT_SUCCESS = 1
-    admin_cursor.execute("SELECT * FROM admin WHERE username=? AND password=?", (username, password))
+    admin_cursor.execute("SELECT * FROM admin WHERE username=? AND password=?", (username, password,))
     query = admin_cursor.fetchall()
 
     if (query):     # condition for successful login
