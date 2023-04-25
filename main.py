@@ -70,18 +70,19 @@ def main():
                             continue
                     
                     new_user.create_new(UID=new_UID, 
-                                              first_name=first_name, 
-                                              last_name=last_name, 
-                                              DOB=birth, 
-                                              GPA=gpa,
-                                              major_ID=major_ID,
-                                              undergraduate=undergraduate,
-                                              class_standing=class_standing,
-                                              email=email,
-                                              phone_number=phone,
-                                              address=address,
-                                              password=password
-                                              )
+                                        first_name=first_name, 
+                                        last_name=last_name, 
+                                        DOB=birth, 
+                                        GPA=gpa,
+                                        major_ID=major_ID,
+                                        undergraduate=undergraduate,
+                                        class_standing=class_standing,
+                                        email=email,
+                                        phone_number=phone,
+                                        address=address,
+                                        password=password
+                                        )
+
                     print("Welcome aboard {}! Your details are now in our record. You are now being redirected to our homepage.")
 
 
@@ -90,7 +91,7 @@ def main():
                     break
 
 
-                case __:    # <--- Confirm default case syntax surrounding Exceptions
+                case __:    # <--- Confirm default case syntax surrounding Exceptions 
                     raise ValueError
 
         except ValueError:
