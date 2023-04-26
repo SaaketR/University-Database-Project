@@ -17,3 +17,4 @@ c6 = connSection.cursor()
 c7 = connStudents.cursor()
 
 #create tables
+c1.execute( '''CREATE TABLE COURSE( COURSE_ID INTEGER NOT NULL; COURSE_NAME INTEGER NOT NULL; COURSE_DESC VARCHAR(500) NOT NULL; CREDITS INTEGER NOT NULL; );''')
