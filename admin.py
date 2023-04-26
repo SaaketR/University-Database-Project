@@ -122,8 +122,121 @@ def admin_show_table(table_choice):
 
 
 # Modifying table data based on table selection
-def admin_edit_table(table_choice):
-    pass
+def admin_edit_table(table_choice, action):
+    try:    
+        match table_choice:
+            case 1:     # 1. Professor
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    new_PID = input("PID: ")
+                    new_Name = input("Name: ")
+                    new_Department_ID = input("Department_ID: ")
+                    new_Salary = input("Salary: ")
+                    new_Email = input("Email: ")
+                    new_Tenure = input("Tenure: ")
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 2:     # 2. Section
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 3:     # 3. Registered
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 4:     # 4. Course
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 5:     # 5. Department
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 6:     # 6. Students
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 7:     # 7. Majors
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+
+            case 8:     # 8. Admin
+                if (action.lower()=='a'):
+                    print("Please enter the following details: ")
+                    """
+                    
+                    <-- code to obtain new details goes here
+
+                    """
+                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                elif (action.lower()=='d'):
+                    PID_toRemove = input("Enter PID to Remove: ")
+                    cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
+            
+            case __:
+                raise ValueError
+    
+    except ValueError:
+        print("An unexpected error occured.")
+
+    cursor.commit()
 
 
 def main(username, password):      # returns 0 for unsuccessful login and 1 for successful login
@@ -151,7 +264,8 @@ def main(username, password):      # returns 0 for unsuccessful login and 1 for 
                     case 2:         # 2. Modifying a table (Addition/Deletion/Editting Details)
                         table_choice = admin_select_table()
                         if (table_choice != 0):
-                            admin_edit_table(table_choice=table_choice)
+                            action = input("Would you like to add or delete a record? (Enter \'a\' to add, \'d\' to delete): ")
+                            admin_edit_table(table_choice=table_choice, action=action)
 
                     case 3:         # 3. Custom SQL Querying
                         pass
