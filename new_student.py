@@ -16,7 +16,7 @@ def generate_UID():        # return available UID
     new_UID = 0000000
     while (True):
         new_UID = randint(1000000, 9999999)      # a proposed UID for the new user; can be any 7 digit number
-        cursor.execute("SELECT * FROM user WHERE UID=?", (new_UID,))
+        cursor.execute("SELECT * FROM Students WHERE Students.UID=?", (new_UID,))
         query = cursor.fetchall()      # obtaining query results
         if len(query) == 0:     # condition for proposed UID to be unique
             break
@@ -51,6 +51,6 @@ def check_password(ToCheck):        # return 0 is password does not meet require
 
 # Inserting the new user into the database
 def create_new(UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password):      # void function??
-    cursor.execute("INSERT INTO user VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    cursor.execute("INSERT INTO Students VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                         (UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password,))
     cursor.commit()
