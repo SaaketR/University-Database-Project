@@ -1,0 +1,12 @@
+Course_ID,Course Name,CourseDesc,Credits
+1,Database Design,This course teaches students how to analyze complex business scenarios and create a data model using SQL. Participants implement their database design by creating a physical database .,3
+2,Computer Logic Design,This course presents basic tools for the design of digital circuits  .,3
+3,Human Computer Interaction,"This course teaches students how to design and evaluate interactive systems with a focus on user-centered design principles. Topics include user research, prototyping, usability testing, and interface design.",3
+4,VLSI Testing,This course covers the testing of digital circuits and systems implemented in VLSI technology.,3
+5,Data Structures,"This course teaches students how to organize and store data in efficient ways. Topics include arrays, linked lists, trees, graphs, and hashing.",4
+6,Algorithms ,"This course teaches students how to design and analyze algorithms for solving computational problems. Topics include sorting and searching, graph algorithms, dynamic programming, and greedy algorithms.",4
+7,Operating Systems,"This course teaches students how operating systems work and how they manage computer hardware and software resources. Topics include process management, memory management, file systems, and security.",3
+8,Parallel Computing ,"This course teaches students how to write programs that run on multiple processors or computers simultaneously. Topics include parallel architectures, parallel algorithms, and parallel programming languages.",3
+9,Secure Coding ,"This course teaches students how to write secure code that is resistant to attacks such as buffer overflows and SQL injection. Topics include secure coding practices, threat modeling, and vulnerability analysis.",3
+10,Ethics,"This course covers ethical issues related to computing such as privacy, intellectual property, and social responsibility.",2
+11,Software Testing ,"This course teaches students how to test software for correctness and quality. Topics include test planning, test case design, test automation, and debugging.",3

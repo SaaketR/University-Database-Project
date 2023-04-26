@@ -1,0 +1,16 @@
+PID,Name,Department_ID,Salary,Email,Tenure
+1,Mary,,"70,000",mary@uni.edu,Mar-25
+2,Jane,,"80,000",jane@uni.edu,Jun-25
+3,Smith,,"75,000",smith@uni.edu,May-25
+4,Sean,,"82,000",sean@uni.edu,Jul-26
+5,Jack,,"90,000",jack@uni.edu,Mar-25
+6,John,,"77,000",john@uni.edu,Jun-25
+7,Joe,,"67,000",joe@uni.edu,Jul-26
+8,Daniel,,"90,000",dani@uni.edu,May-26
+9,Jake,,"84,000",jake@uni.edu,May-26
+10,Andrew,,"74,000",andr@uni.edu,May-27
+11,Mike,,"75,000",mike@uni.edu,Jul-27
+12,Nick,,"83,000",nick@uni.edu,Mar-25
+13,Blake,,"65,000",blake@uni.edu,Jun-27
+14,Sarah,,"80,000",sarah@uni.edu,May-27
+15,Olivia,,"85,000",oli@uni.edu,Apr-26

@@ -1,0 +1,9 @@
+UID,First_Name,Last_Name,Date_of_Birth,GPA,Major_ID,Email,Undergraduate,Class Standing,Phone,Address
+U123,Jack,Daniels,10/12/00,3.5,1,jd@uni.edu,TRUE,Junior,9483264168,4102 Fire Access Road
+U234,Mark,Manson,8/24/00,4,2,mm@uni.edu,TRUE,Sophomore,4657672632,4858 D Street
+U345,Julie ,Jenner,5/7/01,3.3,3,jj@uni.edu,TRUE,Freshman,8765423456,1387 Walnut Drive
+U456,John ,Doe,6/12/01,3.4,2,jd2@uni.edu,TRUE,Junior,2345673242,3022 Hornor Avenue
+U567,Mike,Miller,1/31/00,3.89,2,mm2@uni.edu,FALSE,Junior,9763423497,4976 Pringle Drive
+U678,Olivia,Davidson,2/28/01,3.9,3,od@uni.edu,FALSE,Senior,3746823288,2461 Hinkle Lake Road
+U789,Johnathan,Belson,2/14/01,3.72,1,jb@uni.edu,TRUE,Senior,9837423006,4479 Armory Road
+U890,Dylan,Wright,4/20/00,4,2,dw@uni.edu,FALSE,Junior,4365488993,4671 Jenna Lane
