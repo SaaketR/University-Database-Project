@@ -30,7 +30,7 @@ def main():
 
 
                 case 2:     # Admin Login 
-                    username = input("Enter Username: ")
+                    username = input("Enter Email: ")
                     password = input("Enter Password: ")
                     login_success = admin.main(username, password)
                     if (login_success==0):
@@ -43,7 +43,7 @@ def main():
                     first_name = input("Enter First Name: ")
                     last_name = input("Enter Last Name: ")
                     birth = input("Enter Date of Birth: ")
-                    gpa = int(input("Enter GPA: "))
+                    gpa = float(input("Enter GPA: "))
                     major_ID = int(input("Enter Major ID: "))
 
                     undergraduate_check = input("Are you an undergraduate student? (Y/N): ")
@@ -62,7 +62,7 @@ def main():
 
                     password_success = 0
                     while (password_success==0):
-                        print("Your new UID is {}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
+                        print(f"Your new UID is {new_UID}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
                         password = input("Enter password: ")
                         password_success = new_student.check_password(password)
                         if (password_success==0):
@@ -83,7 +83,7 @@ def main():
                                         password=password
                                         )
 
-                    print("Welcome aboard {}! Your details are now in our record. You are now being redirected to our homepage.")
+                    print(f"Welcome aboard {first_name}! Your details are now in our record. You are now being redirected to our homepage.")
 
 
                 case 4:     # Exit 

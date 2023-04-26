@@ -50,7 +50,7 @@ def check_password(ToCheck):        # return 0 is password does not meet require
 
 
 # Inserting the new user into the database
-def create_new(UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password):      # void function??
+def create_new(UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, password,phone_number,address):      # void function??
     cursor.execute("INSERT INTO Students VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-                        (UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, phone_number, address, password,))
+                        (UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, password, phone_number, address))
     cursor.commit()

@@ -115,6 +115,7 @@ def view_registered_classes(UID):
         i = 0
         while (i < len(query)):
             print("{:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20}\n".format(query[i][0], query[i][1], query[i][2], query[i][3], query[i][4], query[i][5], query[i][6]))
+            i+=1
     else:
         print("No classes found\n")
 
@@ -164,9 +165,9 @@ def list_professors(UID):
     cursor.execute("""
                     SELECT Professor.Name, Professor.Email
                     FROM Professor, Students, Majors
-                    WHERE Student.UID=?
-                        AND Majors.Major_ID=Student.Major_ID
-                        AND Major.Department_ID=Professor.Department_ID
+                    WHERE Students.UID=?
+                        AND Majors.Major_ID=Students.Major_ID
+                        AND Majors.Department_ID=Professor.Department_ID
                     """, (UID,))
     query = cursor.fetchall()
 
@@ -176,6 +177,7 @@ def list_professors(UID):
         i = 0
         while (i < len(query)):
             print("{:<20} {:<20}\n".format(query[i][0], query[i][1]))
+            i+=1
     else:
         print("No such professors found!\n")
 
@@ -183,7 +185,7 @@ def list_professors(UID):
 # returns 0 for unsuccessful login and 1 for successful login
 def main(UID, password):      
     EXIT_SUCCESS = 1
-    cursor.execute("SELECT * FROM Studentss WHERE UID=? AND password=?", (UID, password,))
+    cursor.execute("SELECT * FROM Students WHERE UID=? AND password=?", (UID, password,))
     query = cursor.fetchall()
 
     if (query):     # condition for successful login

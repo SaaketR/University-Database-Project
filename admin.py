@@ -150,7 +150,7 @@ def admin_edit_table(table_choice, action):
                     cursor.execute("INSERT INTO Section VALUES (?,?,?,?,?)", (new_Section_ID, new_Course_ID, new_Term, new_Professor_ID, new_Section_Number,))
                 elif (action.lower()=='d'):
                     Section_ID_toRemove = input("Enter Section_ID to Remove: ")
-                    cursor.execute("DELETE FROM Section WHERE Section.Section_ID_toRemove=?", (Section_ID_toRemove,))
+                    cursor.execute("DELETE FROM Section WHERE Section.Section_ID=?", (Section_ID_toRemove,))
 
             case 3:     # 3. Registered
                 if (action.lower()=='a'):
@@ -195,7 +195,7 @@ def admin_edit_table(table_choice, action):
                     new_First_Name = input("First_Name: ")
                     new_Last_Name = input("Last_Name: ")
                     new_Date_of_Birth = input("Date_of_Birth: ")
-                    new_GPA = int(input("GPA: "))
+                    new_GPA = float(input("GPA: "))
                     new_Major_ID = int(input("Major_ID: "))
                     new_Undergraduate = input("Undergraduate (TRUE/FALSE): ")
                     new_Class_Standing = input("Class_Standing: ")
@@ -256,10 +256,27 @@ def admin_edit_table(table_choice, action):
 
     cursor.commit()
 
+# Custom SQL Queries
+def admin_custom_queries(query):
+    try:
+        cursor.execute(query)
+        record = cursor.fetchall()
+        i = 0
+        while (i < len(record)):
+            j = 0
+            while (j<len(record[i])):
+                print("{:<20} ".format(record[i][j]), end="")
+                j+=1
+            print(" ")
+            i+=1
+        conn.commit()
+    except:
+        print("An error has occurred.\n")
 
-def main(username, password):      # returns 0 for unsuccessful login and 1 for successful login
+
+def main(email, password):      # returns 0 for unsuccessful login and 1 for successful login
     EXIT_SUCCESS = 1
-    cursor.execute("SELECT * FROM admin WHERE username=? AND password=?", (username, password,))
+    cursor.execute("SELECT * FROM admin WHERE email=? AND password=?", (email, password,))
     query = cursor.fetchall()
 
     if (query):     # condition for successful login
@@ -285,7 +302,10 @@ def main(username, password):      # returns 0 for unsuccessful login and 1 for 
                             action = input("Would you like to add or delete a record? (Enter \'a\' to add, \'d\' to delete): ")
                             admin_edit_table(table_choice=table_choice, action=action)
 
-                    case 3:         # 3. Custom SQL Querying
+                    case 3:
+                         # 3. Custom SQL Querying
+                        admin_query = input("Type custom SQL Query here: ")
+                        admin_custom_queries(admin_query);
                         pass
 
                     case 4:         # 4. Exit
