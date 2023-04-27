@@ -51,6 +51,8 @@ def view_personal_info(UID):
     print("Email:\t\t\t\t", Students_info[0][8])
     print("Phone Number:\t\t\t", Students_info[0][9])
     print("Address:\t\t\t", Students_info[0][10])
+    print("\n")
+
 
 
 # Editing personal information: return 0 for successful change, 1 for unsuccessful change 
@@ -73,7 +75,7 @@ def edit_personal_info(UID):
     choice = prompt({
                     "type": "list",
                     "message" : "",
-                    "choices": ["First Name","Last Name","Date of Birth","GPA","Major ID","Undergraduate","Class Standing","Email","Phone Number","Address","Cancel"]
+                    "choices": ["First Name","Last Name","Date of Birth","GPA","Major ID","Undergraduate","Class Standing","Email","Phone Number","Address","CANCEL"]
                 })
 
     match choice[0]:
@@ -117,9 +119,13 @@ def edit_personal_info(UID):
             new_info = input("Enter new Address: ")
             cursor.execute("UPDATE Students SET Address=? WHERE UID=?", (new_info, UID,))
 
+        case "CANCEL":
+            return 1
+
         case __:
             return 0
 
+    print("Personal information successfully editted\n")
     conn.commit()
     return 1
 
@@ -155,10 +161,14 @@ def edit_registered_classes(UID):
         2. Remove Class
 
     """
-    choice = int(input("Enter your choice here: "))
+    choice = prompt({
+        "type" : "list",
+        "message" : "",
+        "choices" : ["Register Class","Remove Class","CANCEL"]
+    })
     try:
-        match choice:
-            case 1:     # Add class
+        match choice[0]:
+            case "Register Class":     # Add class
                 section_To_Add = int(input("Enter Section ID to add: "))
                 cursor.execute("SELECT * FROM Registered WHERE Registered.UID=? AND Registered.Section_ID=?", (UID, section_To_Add))
                 query = cursor.fetchall()
@@ -170,7 +180,7 @@ def edit_registered_classes(UID):
                     print("Course successfully added!\n")
 
 
-            case 2:     # Remove class
+            case "Remove Class":     # Remove class
                 section_To_Remove = int(input("Enter Section ID to add: "))
                 cursor.execute("SELECT * FROM Registered WHERE Registered.UID=? AND Registered.Section_ID=?", (UID, section_To_Remove))
                 query = cursor.fetchall()
@@ -227,34 +237,40 @@ def main(UID, password):
             """
 
             try:
+                clrscr()
+                print_centre(f"{tcol.HEADER}{tcol.BOLD}STUDENT PORTAL{tcol.ENDC}")
                 choice = prompt({
                     "type": "list",
                     "message" : "",
-                    "choices": [0,"View personal information","Edit personal information", "Access registered classes", "Modiying the list of registered classes (add/remove)","Obtain a list of all professors within the department of the students major"]
+                    "choices": ["View personal information","Edit personal information", "Access registered classes", "Modiying the list of registered classes (add/remove)","Obtain a list of all professors within the department of the students major","LOGOUT"]
                 })
                 match choice[0]:
-                    case 0:
+                    case "LOGOUT":
                         break
 
                     case "View personal information":     # Viewing personal information
                         view_personal_info(UID=UID)
+                        input("Press Enter to continue...")
 
                     case "Edit personal information":     # Editing personal information by calling the edit_personal_info() function declared in this file
                         edit_success = edit_personal_info(UID=UID)
                         while (edit_success==0):
                             print("Error adding information, try again.\n")
                             edit_success = edit_personal_info(UID=UID)
-                        print("Personal information successfully editted\n")
+                        input("Press Enter to continue...")
                     
                     case "Access registered classes":     # Viewing registered classes
                         view_registered_classes(UID=UID)
+                        input("Press Enter to continue...")
 
                     case "Modiying the list of registered classes (add/remove)":     # Modiying classes list
                         edit_registered_classes(UID=UID)
+                        input("Press Enter to continue...")
                         
 
                     case "Obtain a list of all professors within the department of the students major":     # Viewing all professors within the department
                         list_professors(UID=UID)
+                        input("Press Enter to continue...")
 
                     case __:        # Default
                         raise ValueError

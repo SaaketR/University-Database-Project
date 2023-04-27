@@ -32,6 +32,8 @@ def print_centre(s):
 def clrscr():
     os.system('cls' if os.name=='nt' else 'clear')
 
+def get
+
 conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
 
@@ -149,7 +151,7 @@ def admin_edit_table(table_choice, action):
             case "Professor":     # 1. Professor
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_PID = input("PID: ")
+                    new_PID = new_student.generate_UID(2)
                     new_Name = input("Name: ")
                     new_Department_ID = input("Department_ID: ")
                     new_Salary = input("Salary: ")
@@ -163,7 +165,7 @@ def admin_edit_table(table_choice, action):
             case "Section":     # 2. Section
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_Section_ID = input("Section_ID: ")
+                    new_Section_ID = new_student.generate_UID(3)
                     new_Course_ID = input("Course_ID: ")
                     new_Term = input("Term: ")
                     new_Professor_ID = input("Professor_ID: ")
@@ -187,7 +189,7 @@ def admin_edit_table(table_choice, action):
             case "Course":     # 4. Course
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_Course_ID = input("Course_ID: ")
+                    new_Course_ID = new_student.generate_UID(2)
                     new_Course_Name = input("Course_Name: ")
                     new_CourseDesc = input("CourseDesc: ")
                     new_Credits = input("Credits")
@@ -199,7 +201,7 @@ def admin_edit_table(table_choice, action):
             case "Department":     # 5. Department
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_Department_ID = input("Department_ID: ")
+                    new_Department_ID = new_student.generate_UID(2)
                     new_Department_Name = input("Department_Name: ")
                     new_Year_Founded = input("Year_Founded: ")
                     new_Budget = input("Budget: ")
@@ -212,7 +214,7 @@ def admin_edit_table(table_choice, action):
             case "Students":     # 6. Students
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_UID = new_student.generate_UID()
+                    new_UID = new_student.generate_UID(7)
                     new_First_Name = input("First_Name: ")
                     new_Last_Name = input("Last_Name: ")
                     new_Date_of_Birth = input("Date_of_Birth: ")
@@ -250,7 +252,7 @@ def admin_edit_table(table_choice, action):
             case "Majors":     # 7. Majors
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_Major_ID = int(input("Major_ID: "))
+                    new_Major_ID = new_student.generate_UID(2)
                     new_Major_Name = input("Major_Name: ")
                     new_Department_ID = int(input("Department_ID"))
                     cursor.execute("INSERT INTO Majors VALUES (?,?,?,)", (new_Major_ID, new_Major_Name, new_Department_ID,))
@@ -324,18 +326,20 @@ def main(email, password):      # returns 0 for unsuccessful login and 1 for suc
                         table_choice = admin_select_table()
                         if (table_choice != 0):
                             admin_show_table(table_choice=table_choice)
-                        input("")
+                        input("\nPress Enter to continue...")
 
                     case "Edit Tables":         # 2. Modifying a table (Addition/Deletion/Editting Details)
                         table_choice = admin_select_table()
                         if (table_choice != 0):
                             action = input("Would you like to add or delete a record? (Enter \'a\' to add, \'d\' to delete): ")
                             admin_edit_table(table_choice=table_choice, action=action)
+                        input("\nPress Enter to continue...")
 
                     case "Custom Query":
                          # 3. Custom SQL Querying
-                        admin_query = input("Type custom SQL Query here")
+                        admin_query = input(f"{tcol.OKBLUE}Type custom SQL Query here\n{tcol.ENDC}")
                         admin_custom_queries(admin_query);
+                        input("\nPress Enter to continue...")
                         pass
 
                     case "LOGOUT":         # 4. Exit
@@ -363,7 +367,7 @@ def main(email, password):      # returns 0 for unsuccessful login and 1 for suc
                         address = input("Enter Address: ")
                         
 
-                        new_UID = new_student.generate_UID()
+                        new_UID = new_student.generate_UID(7)
 
                         print(f"Your new UID is {new_UID}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
                         password_success = 0
@@ -389,7 +393,7 @@ def main(email, password):      # returns 0 for unsuccessful login and 1 for suc
                                             )
 
                         print(f"Welcome aboard {first_name}! Your details are now in our record. You are now being redirected to our homepage.")
-
+                        input("\nPress Enter to continue...")
 
                     case __:
                         raise ValueError

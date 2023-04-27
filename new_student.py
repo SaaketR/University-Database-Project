@@ -12,10 +12,10 @@ conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
 
 # Generating a unique UID
-def generate_UID():        # return available UID
+def generate_UID(num):        # return available UID
     new_UID = 0000000
     while (True):
-        new_UID = randint(1000000, 9999999)      # a proposed UID for the new user; can be any 7 digit number
+        new_UID = randint((10**num), ((10**(num+1))-1))      # a proposed UID for the new user; can be any 7 digit number
         cursor.execute("SELECT * FROM Students WHERE Students.UID=?", (new_UID,))
         query = cursor.fetchall()      # obtaining query results
         if len(query) == 0:     # condition for proposed UID to be unique
