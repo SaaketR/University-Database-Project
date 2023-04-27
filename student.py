@@ -113,7 +113,7 @@ def edit_personal_info(UID):
 
         case "Phone Number":     # 9. Phone Number
             new_info = input("Enter new Phone Number: ")
-            cursor.execute("UPDATE Students SET Phone_Number=? WHERE UID=?", (new_info, UID,))
+            cursor.execute("UPDATE Students SET Phone=? WHERE UID=?", (new_info, UID,))
 
         case "Address":    # 10. Address
             new_info = input("Enter new Address: ")
