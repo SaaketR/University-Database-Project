@@ -28,7 +28,7 @@ def main():
     while True:
         clrscr()
         print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to Database University{tcol.ENDC}")
-        print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to University{tcol.ENDC}")
+        print_centre(f"{tcol.OKGREEN}Go DB's!{tcol.ENDC}")
         try:
             choice = prompt({
                 "type": "list",
