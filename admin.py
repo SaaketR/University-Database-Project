@@ -32,7 +32,14 @@ def print_centre(s):
 def clrscr():
     os.system('cls' if os.name=='nt' else 'clear')
 
-def get
+def getInput(string):
+    while True:
+
+        x = input(string)
+        if (x != ""):
+            return x
+        print("Enter a valid Data")
+
 
 conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
@@ -150,85 +157,90 @@ def admin_edit_table(table_choice, action):
         match table_choice:
             case "Professor":     # 1. Professor
                 if (action.lower()=='a'):
-                    print("Please enter the following details: ")
-                    new_PID = new_student.generate_UID(2)
-                    new_Name = input("Name: ")
-                    new_Department_ID = input("Department_ID: ")
-                    new_Salary = input("Salary: ")
-                    new_Email = input("Email: ")
-                    new_Tenure = input("Tenure: ")
-                    cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                    while(True):                    
+                        try: 
+                            print("Please enter the following details: ")
+                            new_PID = new_student.generate_UID(2)
+                            new_Name = getInput("Name: ")
+                            new_Department_ID = int(getInput("Department_ID: "))
+                            new_Salary = getInput("Salary: ")
+                            new_Email = getInput("Email: ")
+                            new_Tenure = getInput("Tenure: ")
+                            cursor.execute("INSERT INTO Professor VALUES (?,?,?,?,?,?)", (new_PID, new_Name, new_Department_ID, new_Salary, new_Email, new_Tenure,))
+                            break
+                        except:
+                            print("Invalid data type for atleast one field! try again")
                 elif (action.lower()=='d'):
-                    PID_toRemove = input("Enter PID to Remove: ")
+                    PID_toRemove = getInput("Enter PID to Remove: ")
                     cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
 
             case "Section":     # 2. Section
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Section_ID = new_student.generate_UID(3)
-                    new_Course_ID = input("Course_ID: ")
-                    new_Term = input("Term: ")
-                    new_Professor_ID = input("Professor_ID: ")
-                    new_Section_Number = input("Section_Number")
+                    new_Course_ID = getInput("Course_ID: ")
+                    new_Term = getInput("Term: ")
+                    new_Professor_ID = getInput("Professor_ID: ")
+                    new_Section_Number = getInput("Section_Number")
                     cursor.execute("INSERT INTO Section VALUES (?,?,?,?,?)", (new_Section_ID, new_Course_ID, new_Term, new_Professor_ID, new_Section_Number,))
                 elif (action.lower()=='d'):
-                    Section_ID_toRemove = input("Enter Section_ID to Remove: ")
+                    Section_ID_toRemove = getInput("Enter Section_ID to Remove: ")
                     cursor.execute("DELETE FROM Section WHERE Section.Section_ID=?", (Section_ID_toRemove,))
 
             case "Registered":     # 3. Registered
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_UID = input("UID: ")
-                    new_Section_ID = input("Section_ID: ")
+                    new_UID = getInput("UID: ")
+                    new_Section_ID = getInput("Section_ID: ")
                     cursor.execute("INSERT INTO Registered VALUES (?,?)", (new_UID, new_Section_ID,))
                 elif (action.lower()=='d'):
-                    UID_toRemove = input("Enter UID to remove: ")
-                    Section_ID_toRemove = input("Enter Section_ID to remove: ")
+                    UID_toRemove = getInput("Enter UID to remove: ")
+                    Section_ID_toRemove = getInput("Enter Section_ID to remove: ")
                     cursor.execute("DELETE FROM Registered WHERE Registered.UID=? AND Registered.Section_ID_toRemove", (UID_toRemove, Section_ID_toRemove))
 
             case "Course":     # 4. Course
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Course_ID = new_student.generate_UID(2)
-                    new_Course_Name = input("Course_Name: ")
-                    new_CourseDesc = input("CourseDesc: ")
-                    new_Credits = input("Credits")
+                    new_Course_Name = getInput("Course_Name: ")
+                    new_CourseDesc = getInput("CourseDesc: ")
+                    new_Credits = getInput("Credits")
                     cursor.execute("INSERT INTO Course VALUES (?,?,?,?)", (new_Course_ID, new_Course_Name, new_CourseDesc, new_Credits,))
                 elif (action.lower()=='d'):
-                    Course_ID_toRemove = input("Enter Course_ID to Remove: ")
+                    Course_ID_toRemove = getInput("Enter Course_ID to Remove: ")
                     cursor.execute("DELETE FROM Course WHERE Course.Course_ID=?", (Course_ID_toRemove,))
 
             case "Department":     # 5. Department
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Department_ID = new_student.generate_UID(2)
-                    new_Department_Name = input("Department_Name: ")
-                    new_Year_Founded = input("Year_Founded: ")
-                    new_Budget = input("Budget: ")
-                    new_Department_Chair = input("Department_Chair: ")
+                    new_Department_Name = getInput("Department_Name: ")
+                    new_Year_Founded = getInput("Year_Founded: ")
+                    new_Budget = getInput("Budget: ")
+                    new_Department_Chair = getInput("Department_Chair: ")
                     cursor.execute("INSERT INTO Department VALUES (?,?,?,?,?)", (new_Department_ID, new_Department_Name, new_Year_Founded, new_Budget, new_Department_Chair,))
                 elif (action.lower()=='d'):
-                    Department_ID_toRemove = input("Enter Department_ID to Remove: ")
+                    Department_ID_toRemove = getInput("Enter Department_ID to Remove: ")
                     cursor.execute("DELETE FROM Department WHERE Department.Department_ID=?", (Department_ID_toRemove,))
 
             case "Students":     # 6. Students
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_UID = new_student.generate_UID(7)
-                    new_First_Name = input("First_Name: ")
-                    new_Last_Name = input("Last_Name: ")
-                    new_Date_of_Birth = input("Date_of_Birth: ")
-                    new_GPA = float(input("GPA: "))
-                    new_Major_ID = int(input("Major_ID: "))
-                    new_Undergraduate = input("Undergraduate (TRUE/FALSE): ")
-                    new_Class_Standing = input("Class_Standing: ")
-                    new_Email = input("Email: ")
-                    new_Phone = int(input("Phone: "))
-                    new_Address = input("Address: ")
+                    new_First_Name = getInput("First_Name: ")
+                    new_Last_Name = getInput("Last_Name: ")
+                    new_Date_of_Birth = getInput("Date_of_Birth: ")
+                    new_GPA = float(getInput("GPA: "))
+                    new_Major_ID = int(getInput("Major_ID: "))
+                    new_Undergraduate = getInput("Undergraduate (TRUE/FALSE): ")
+                    new_Class_Standing = getInput("Class_Standing: ")
+                    new_Email = getInput("Email: ")
+                    new_Phone = int(getInput("Phone: "))
+                    new_Address = getInput("Address: ")
 
                     password_check = 0
                     while (password_check==0):
-                        new_Password = input("Password: ")
+                        new_Password = getInput("Password: ")
                         password_check = new_student.check_password(new_Password)
                         if (password_check==0):
                             print("Password does not meet requirements, try again. (8-15 characters, mix of capitals, special characters, and digits)\n")
@@ -246,29 +258,29 @@ def admin_edit_table(table_choice, action):
                                            address=new_Address,
                                            password=new_Password)
                 elif (action.lower()=='d'):
-                    UID_toRemove = int(input("Enter UID to Remove: "))
+                    UID_toRemove = int(getInput("Enter UID to Remove: "))
                     cursor.execute("DELETE FROM Students WHERE Students.UID=?", (UID_toRemove,))
 
             case "Majors":     # 7. Majors
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Major_ID = new_student.generate_UID(2)
-                    new_Major_Name = input("Major_Name: ")
-                    new_Department_ID = int(input("Department_ID"))
+                    new_Major_Name = getInput("Major_Name: ")
+                    new_Department_ID = int(getInput("Department_ID"))
                     cursor.execute("INSERT INTO Majors VALUES (?,?,?,)", (new_Major_ID, new_Major_Name, new_Department_ID,))
                 elif (action.lower()=='d'):
-                    Major_ID_toRemove = input("Enter Major_ID to Remove: ")
+                    Major_ID_toRemove = getInput("Enter Major_ID to Remove: ")
                     cursor.execute("DELETE FROM Major_ID WHERE Major.Major_ID=?", (Major_ID_toRemove,))
 
             case "Admin":     # 8. Admin
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
-                    new_Name = input("Name: ")
-                    new_Email = input("Email: ")
-                    new_Password = input("Password: ")
+                    new_Name = getInput("Name: ")
+                    new_Email = getInput("Email: ")
+                    new_Password = getInput("Password: ")
                     cursor.execute("INSERT INTO Admin VALUES (?,?,?)", (new_Name, new_Email, new_Password,))
                 elif (action.lower()=='d'):
-                    Email_toRemove = input("Enter Admin Email to Remove: ")
+                    Email_toRemove = getInput("Enter Admin Email to Remove: ")
                     cursor.execute("DELETE FROM Admin WHERE Admin.Email=?", (Email_toRemove,))
             
             case __:
