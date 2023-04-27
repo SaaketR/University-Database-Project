@@ -1,100 +1,70 @@
 import sqlite3
+import os
+from InquirerPy import prompt
+import shutil
+from pwinput import pwinput
 
 import admin
 import student
-import new_student
-import student
-import admin
+
+class tcol:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def print_centre(s):
+    print(s.center(shutil.get_terminal_size().columns))
+
+def clrscr():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 def main():
     while True:
-        """
-        Login interface goes here
-            1. User Login
-            2. Admin Login
-            3. New User
-            4. Exit
-
-        """
-
+        clrscr()
+        print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to Database University{tcol.ENDC}")
+        print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to University{tcol.ENDC}")
         try:
-            choice = int(input("Enter choice: "))
-
-            match choice:
-                case 1:     # User Login 
-                    UID = int(input("Enter UID: "))
-                    password = input("Enter Password: ")
+            choice = prompt({
+                "type": "list",
+                "message" : "",
+                "choices": ["Student Login", "Admin Login", "QUIT"]
+            })
+            clrscr()
+            match choice[0]:
+                case "Student Login":     # User Login 
+                    print_centre(f"{tcol.BOLD}{tcol.HEADER}Student Login{tcol.ENDC}")
+                    UID = int(input(f"{tcol.BOLD}{tcol.OKCYAN}Enter UID:\t\t{tcol.ENDC}"))
+                    password = pwinput(f"{tcol.BOLD}{tcol.OKCYAN}Enter Password:\t\t{tcol.ENDC}")
                     login_success = student.main(UID=UID, password=password)
                     if (login_success==0):
-                        print("Login failed. Try again")
+                        print_centre(f"{tcol.BOLD}{tcol.FAIL}Login failed. Try again{tcol.ENDC}")
+                        input("Press Enter to continue...")
 
 
-                case 2:     # Admin Login 
-                    username = input("Enter Email: ")
-                    password = input("Enter Password: ")
+                case "Admin Login":     # Admin Login 
+                    print_centre(f"{tcol.BOLD}{tcol.HEADER}Admin Login{tcol.ENDC}")
+                    username = input(f"{tcol.BOLD}{tcol.OKCYAN}Enter Email:\t\t{tcol.ENDC}")
+                    password = pwinput(f"{tcol.BOLD}{tcol.OKCYAN}Enter Password:\t\t{tcol.ENDC}")
                     login_success = admin.main(username, password)
                     if (login_success==0):
-                        print("Login failed. Try again")
+                        print_centre(f"{tcol.BOLD}{tcol.FAIL}Login failed. Try again{tcol.ENDC}")
+                        input("Press Enter to continue...")
 
-
-                case 3:     # New User Login 
-                    print("Please enter your details below: ")
-
-                    first_name = input("Enter First Name: ")
-                    last_name = input("Enter Last Name: ")
-                    birth = input("Enter Date of Birth: ")
-                    gpa = float(input("Enter GPA: "))
-                    major_ID = int(input("Enter Major ID: "))
-
-                    undergraduate_check = input("Are you an undergraduate student? (Y/N): ")
-                    undergraduate = 1
-                    if (undergraduate_check.upper() == "N"):
-                        undergraduate = 0
-                    
-                    class_standing = input("Enter class standing (Freshman/Sophomore/Junior/Senior): ")
-
-                    email = input("Enter Email: ")
-                    phone = int(input("Enter Phone Number: "))
-                    address = input("Enter Address: ")
-                    
-
-                    new_UID = new_student.generate_UID()
-
-                    password_success = 0
-                    while (password_success==0):
-                        print(f"Your new UID is {new_UID}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
-                        password = input("Enter password: ")
-                        password_success = new_student.check_password(password)
-                        if (password_success==0):
-                            print("Password does not meet requirement, try again.\n")
-                            continue
-                    
-                    new_student.create_new(UID=new_UID, 
-                                        first_name=first_name, 
-                                        last_name=last_name, 
-                                        DOB=birth, 
-                                        GPA=gpa,
-                                        major_ID=major_ID,
-                                        undergraduate=undergraduate,
-                                        class_standing=class_standing,
-                                        email=email,
-                                        phone_number=phone,
-                                        address=address,
-                                        password=password
-                                        )
-
-                    print(f"Welcome aboard {first_name}! Your details are now in our record. You are now being redirected to our homepage.")
-
-
-                case 4:     # Exit 
+                case "QUIT":     # Exit 
                     print("Thank you, bye!")
                     break
-
 
                 case __:    # <--- Confirm default case syntax surrounding Exceptions 
                     raise ValueError
 
         except ValueError:
             print("Choice not found, please try again.\n")
+
 
 main()

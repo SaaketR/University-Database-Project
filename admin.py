@@ -10,9 +10,30 @@ import sqlite3
 import student
 import new_student
 
+import os
+from InquirerPy import prompt
+import shutil
+from pwinput import pwinput
+
+class tcol:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def print_centre(s):
+    print(s.center(shutil.get_terminal_size().columns))
+
+def clrscr():
+    os.system('cls' if os.name=='nt' else 'clear')
+
 conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
-
 
 # Presents the admin with a list of tables on the database, returns the table of choice
 def admin_select_table(): 
@@ -28,21 +49,21 @@ def admin_select_table():
         7. Majors
         8. Admin
     """
-    while (True):
-        try:
-            choice = int(input("Enter choice here: "))
-            if ((choice >= 0) and (choice <= 8)):
-                break
-        except:
-            print("Invalid choice, try again.")
-    return choice
+    choice = prompt(
+        {
+            "type":"list",
+            "message":"Select Table\n",
+            "choices": ["Professor", "Section", "Registered", "Course", "Department", "Students","Majors", "Admin","CANCEL"]
+        }
+    )
+    return choice[0]
 
 
 # Printing table data based on table selection
 def admin_show_table(table_choice):
     try:    
         match table_choice:
-            case 1:     # 1. Professor
+            case "Professor" :     # 1. Professor
                 print("{:<20} {:<20} {:<20} {:<20} {:<20} {:<20}".format("PID", "Name", "Department_ID", "Salary", "Email", "Tenure"))
                 cursor.execute("SELECT * FROM Professor")
                 query = cursor.fetchall()
@@ -51,7 +72,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20} {:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2], query[i][3], query[i][4], query[i][5]))
                     i += 1
 
-            case 2:     # 2. Section
+            case "Section":     # 2. Section
                 print("{:<20} {:<20} {:<20} {:<20} {:<20}".format("Section_ID", "Course_ID", "Term", "Professor_ID", "Section_Number"))
                 cursor.execute("SELECT * FROM Section")
                 query = cursor.fetchall()
@@ -60,7 +81,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2], query[i][3], query[i][4]))
                     i += 1
 
-            case 3:     # 3. Registered
+            case "Registered":     # 3. Registered
                 print("{:<20} {:<20}".format("UID", "Section_ID"))
                 cursor.execute("SELECT * FROM Registered")
                 query = cursor.fetchall()
@@ -69,7 +90,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20}".format(query[i][0], query[i][1]))
                     i += 1
 
-            case 4:     # 4. Course
+            case "Course":     # 4. Course
                 print("{:<20} {:<20} {:<20} {:<20}".format("Course_ID", "Course_Name", "CourseDesc", "Credits"))
                 cursor.execute("SELECT * FROM Course")
                 query = cursor.fetchall()
@@ -78,7 +99,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2], query[i][3]))
                     i += 1
 
-            case 5:     # 5. Department
+            case "Department":     # 5. Department
                 print("{:<20} {:<20} {:<20} {:<20} {:<20}".format("Department_ID", "Department_Name", "Year_Founded", "Budget", "Department_Chair"))
                 cursor.execute("SELECT * FROM Department")
                 query = cursor.fetchall()
@@ -87,7 +108,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2], query[i][3], query[i][4]))
                     i += 1
 
-            case 6:     # 6. Students
+            case "Students":     # 6. Students
                 print("{:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20}".format("UID", "First_Name", "Last_Name", "Date_of_Birth", "GPA", "Major_ID", "Email", "Undergraduate", "Class_Standing", "Phone", "Address"))
                 cursor.execute("SELECT * FROM Students")
                 query = cursor.fetchall()
@@ -96,7 +117,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2], query[i][3], query[i][4], query[i][5], query[i][6], query[i][7], query[i][8], query[i][9], query[i][10], query[i][11]))
                     i += 1
 
-            case 7:     # 7. Majors
+            case "Majors":     # 7. Majors
                 print("{:<20} {:<20} {:<20}".format("Major_ID", "Major_Name", "Department_ID"))
                 cursor.execute("SELECT * FROM Majors")
                 query = cursor.fetchall()
@@ -105,7 +126,7 @@ def admin_show_table(table_choice):
                     print("{:<20} {:<20} {:<20}".format(query[i][0], query[i][1], query[i][2]))
                     i += 1
 
-            case 8:     # 8. Admin
+            case "Admin":     # 8. Admin
                 print("{:<20} {:<20} {:<20}".format("Name", "Email", "Password"))
                 cursor.execute("SELECT * FROM Admin")
                 query = cursor.fetchall()
@@ -125,7 +146,7 @@ def admin_show_table(table_choice):
 def admin_edit_table(table_choice, action):
     try:    
         match table_choice:
-            case 1:     # 1. Professor
+            case "Professor":     # 1. Professor
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_PID = input("PID: ")
@@ -139,7 +160,7 @@ def admin_edit_table(table_choice, action):
                     PID_toRemove = input("Enter PID to Remove: ")
                     cursor.execute("DELETE FROM Professor WHERE Professor.PID=?", (PID_toRemove,))
 
-            case 2:     # 2. Section
+            case "Section":     # 2. Section
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Section_ID = input("Section_ID: ")
@@ -152,7 +173,7 @@ def admin_edit_table(table_choice, action):
                     Section_ID_toRemove = input("Enter Section_ID to Remove: ")
                     cursor.execute("DELETE FROM Section WHERE Section.Section_ID=?", (Section_ID_toRemove,))
 
-            case 3:     # 3. Registered
+            case "Registered":     # 3. Registered
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_UID = input("UID: ")
@@ -163,7 +184,7 @@ def admin_edit_table(table_choice, action):
                     Section_ID_toRemove = input("Enter Section_ID to remove: ")
                     cursor.execute("DELETE FROM Registered WHERE Registered.UID=? AND Registered.Section_ID_toRemove", (UID_toRemove, Section_ID_toRemove))
 
-            case 4:     # 4. Course
+            case "Course":     # 4. Course
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Course_ID = input("Course_ID: ")
@@ -175,7 +196,7 @@ def admin_edit_table(table_choice, action):
                     Course_ID_toRemove = input("Enter Course_ID to Remove: ")
                     cursor.execute("DELETE FROM Course WHERE Course.Course_ID=?", (Course_ID_toRemove,))
 
-            case 5:     # 5. Department
+            case "Department":     # 5. Department
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Department_ID = input("Department_ID: ")
@@ -188,7 +209,7 @@ def admin_edit_table(table_choice, action):
                     Department_ID_toRemove = input("Enter Department_ID to Remove: ")
                     cursor.execute("DELETE FROM Department WHERE Department.Department_ID=?", (Department_ID_toRemove,))
 
-            case 6:     # 6. Students
+            case "Students":     # 6. Students
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_UID = new_student.generate_UID()
@@ -226,7 +247,7 @@ def admin_edit_table(table_choice, action):
                     UID_toRemove = int(input("Enter UID to Remove: "))
                     cursor.execute("DELETE FROM Students WHERE Students.UID=?", (UID_toRemove,))
 
-            case 7:     # 7. Majors
+            case "Majors":     # 7. Majors
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Major_ID = int(input("Major_ID: "))
@@ -237,7 +258,7 @@ def admin_edit_table(table_choice, action):
                     Major_ID_toRemove = input("Enter Major_ID to Remove: ")
                     cursor.execute("DELETE FROM Major_ID WHERE Major.Major_ID=?", (Major_ID_toRemove,))
 
-            case 8:     # 8. Admin
+            case "Admin":     # 8. Admin
                 if (action.lower()=='a'):
                     print("Please enter the following details: ")
                     new_Name = input("Name: ")
@@ -254,7 +275,7 @@ def admin_edit_table(table_choice, action):
     except ValueError:
         print("An unexpected error occured.")
 
-    cursor.commit()
+    conn.commit()
 
 # Custom SQL Queries
 def admin_custom_queries(query):
@@ -276,7 +297,7 @@ def admin_custom_queries(query):
 
 def main(email, password):      # returns 0 for unsuccessful login and 1 for successful login
     EXIT_SUCCESS = 1
-    cursor.execute("SELECT * FROM admin WHERE email=? AND password=?", (email, password,))
+    cursor.execute("SELECT * FROM admin WHERE email=? AND password=?", (email, password))
     query = cursor.fetchall()
 
     if (query):     # condition for successful login
@@ -288,29 +309,87 @@ def main(email, password):      # returns 0 for unsuccessful login and 1 for suc
                 3. Custom SQL Querying
                 4. Exit
             """
-            choice = int(input("Enter choice here: "))
+            clrscr()
+            print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to Database University{tcol.ENDC}")
+            print_centre(f"{tcol.BOLD}{tcol.UNDERLINE}{tcol.HEADER}Welcome to University{tcol.ENDC}")
+            print(f"{tcol.BOLD}{tcol.WARNING}What Do you want to do?{tcol.ENDC}")
+            choice = prompt({
+                "type": "list",
+                "message" : "",
+                "choices": ["Create New Student","View Tables", "Edit Tables", "Custom Query","LOGOUT"]
+            })
             try:    
-                match choice:
-                    case 1:         # 1. Accessing a table (Printing all the rows from a table)
+                match choice[0]:
+                    case "View Tables":         # 1. Accessing a table (Printing all the rows from a table)
                         table_choice = admin_select_table()
                         if (table_choice != 0):
                             admin_show_table(table_choice=table_choice)
+                        input("")
 
-                    case 2:         # 2. Modifying a table (Addition/Deletion/Editting Details)
+                    case "Edit Tables":         # 2. Modifying a table (Addition/Deletion/Editting Details)
                         table_choice = admin_select_table()
                         if (table_choice != 0):
                             action = input("Would you like to add or delete a record? (Enter \'a\' to add, \'d\' to delete): ")
                             admin_edit_table(table_choice=table_choice, action=action)
 
-                    case 3:
+                    case "Custom Query":
                          # 3. Custom SQL Querying
-                        admin_query = input("Type custom SQL Query here: ")
+                        admin_query = input("Type custom SQL Query here")
                         admin_custom_queries(admin_query);
                         pass
 
-                    case 4:         # 4. Exit
+                    case "LOGOUT":         # 4. Exit
                         print("Thank you, bye!\n")
                         break
+
+                    case "Create New Student":    
+                        print("Please enter your details below: ")
+
+                        first_name = input("Enter First Name: ")
+                        last_name = input("Enter Last Name: ")
+                        birth = input("Enter Date of Birth: ")
+                        gpa = float(input("Enter GPA: "))
+                        major_ID = int(input("Enter Major ID: "))
+
+                        undergraduate_check = input("Are you an undergraduate student? (Y/N): ")
+                        undergraduate = 1
+                        if (undergraduate_check.upper() == "N"):
+                            undergraduate = 0
+                        
+                        class_standing = input("Enter class standing (Freshman/Sophomore/Junior/Senior): ")
+
+                        email = input("Enter Email: ")
+                        phone = int(input("Enter Phone Number: "))
+                        address = input("Enter Address: ")
+                        
+
+                        new_UID = new_student.generate_UID()
+
+                        print(f"Your new UID is {new_UID}. Password should contain 8-15 characters and should be a mix of upper case alphabets, digits, and special characters\n")
+                        password_success = 0
+                        while (password_success==0):
+                            password = input("Enter password: ")
+                            password_success = new_student.check_password(password)
+                            if (password_success==0):
+                                print("Password does not meet requirement, try again.\n")
+                                continue
+                        
+                        new_student.create_new(UID=new_UID, 
+                                            first_name=first_name, 
+                                            last_name=last_name, 
+                                            DOB=birth, 
+                                            GPA=gpa,
+                                            major_ID=major_ID,
+                                            undergraduate=undergraduate,
+                                            class_standing=class_standing,
+                                            email=email,
+                                            phone_number=phone,
+                                            address=address,
+                                            password=password
+                                            )
+
+                        print(f"Welcome aboard {first_name}! Your details are now in our record. You are now being redirected to our homepage.")
+
 
                     case __:
                         raise ValueError

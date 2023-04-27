@@ -14,21 +14,43 @@ import sqlite3
 conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
 
+import os
+from InquirerPy import prompt
+import shutil
+from pwinput import pwinput
+
+class tcol:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def print_centre(s):
+    print(s.center(shutil.get_terminal_size().columns))
+
+def clrscr():
+    os.system('cls' if os.name=='nt' else 'clear')
+
 
 # Printing a Students information given a student's UID; returns void 
 def view_personal_info(UID): 
     cursor.execute("SELECT * FROM students WHERE UID=?", (UID,))
     Students_info = cursor.fetchall()
-    print("First Name: ", Students_info[0][1])
-    print("Last Name: ", Students_info[0][2])
-    print("Date of Birth: ", Students_info[0][3])
-    print("Grade Point Average (GPA): ", Students_info[0][4])
-    print("Major ID: ", Students_info[0][5])
-    print("Undergraduate: ", Students_info[0][6])
-    print("Class Standing: ", Students_info[0][7])
-    print("Email: ", Students_info[0][8])
-    print("Phone Number: ", Students_info[0][9])
-    print("Address: ", Students_info[0][10])
+    print("First Name:\t\t\t", Students_info[0][1])
+    print("Last Name:\t\t\t", Students_info[0][2])
+    print("Date of Birth:\t\t\t", Students_info[0][3])
+    print("Grade Point Average (GPA):\t", Students_info[0][4])
+    print("Major ID:\t\t\t", Students_info[0][5])
+    print("Undergraduate:\t\t\t", Students_info[0][6])
+    print("Class Standing:\t\t\t", Students_info[0][7])
+    print("Email:\t\t\t\t", Students_info[0][8])
+    print("Phone Number:\t\t\t", Students_info[0][9])
+    print("Address:\t\t\t", Students_info[0][10])
 
 
 # Editing personal information: return 0 for successful change, 1 for unsuccessful change 
@@ -47,46 +69,51 @@ def edit_personal_info(UID):
         10. Address
 
     """
-    choice = int(input("What information would you like to edit? (1-10): "))
 
-    match choice:
-        case 1:     # 1. First Name
+    choice = prompt({
+                    "type": "list",
+                    "message" : "",
+                    "choices": ["First Name","Last Name","Date of Birth","GPA","Major ID","Undergraduate","Class Standing","Email","Phone Number","Address","Cancel"]
+                })
+
+    match choice[0]:
+        case "First Name":     # 1. First Name
             new_info = input("Enter new First Name: ")
             cursor.execute("UPDATE Students SET First_Name=? WHERE UID=?", (new_info, UID,))
         
-        case 2:     # 2. Last Name
+        case "Last Name":     # 2. Last Name
             new_info = input("Enter new Last Name: ")
             cursor.execute("UPDATE Students SET Last_Name=? WHERE UID=?", (new_info, UID,))
 
-        case 3:     # 3. Date of Birth
+        case "Date of Birth":     # 3. Date of Birth
             new_info = input("Enter new Date of Birth: ")
             cursor.execute("UPDATE Students SET Date_of_Birth=? WHERE UID=?", (new_info, UID,))
 
-        case 4:     # 4. GPA
+        case "GPA":     # 4. GPA
             new_info = input("Enter new GPA: ")
             cursor.execute("UPDATE Students SET GPA=? WHERE UID=?", (new_info, UID,))
 
-        case 5:     # 5. Major ID
+        case "Major ID":     # 5. Major ID
             new_info = input("Enter new Major ID: ")
             cursor.execute("UPDATE Students SET Major_ID=? WHERE UID=?", (new_info, UID,))
 
-        case 6:     # 6. Undergraduate
+        case "Undergraduate":     # 6. Undergraduate
             new_info = 0
             cursor.execute("UPDATE Students SET Undergraduate=? WHERE UID=?", (new_info, UID,))
 
-        case 7:     # 7. Class Standing
+        case "Class Standing":     # 7. Class Standing
             new_info = input("Enter new Class Standing (Freshman/Sophomore/Junior/Senior): ")
             cursor.execute("UPDATE Students SET Class_Standing=? WHERE UID=?", (new_info, UID,))
 
-        case 8:     # 8. Email
+        case "Email":     # 8. Email
             new_info = input("Enter new Email: ")
             cursor.execute("UPDATE Students SET First_Name=? WHERE UID=?", (new_info, UID,))
 
-        case 9:     # 9. Phone Number
+        case "Phone Number":     # 9. Phone Number
             new_info = input("Enter new Phone Number: ")
             cursor.execute("UPDATE Students SET Phone_Number=? WHERE UID=?", (new_info, UID,))
 
-        case 10:    # 10. Address
+        case "Address":    # 10. Address
             new_info = input("Enter new Address: ")
             cursor.execute("UPDATE Students SET Address=? WHERE UID=?", (new_info, UID,))
 
@@ -200,26 +227,33 @@ def main(UID, password):
             """
 
             try:
-                choice = int(input("Enter your choice: "))
-                match choice:
-                    case 1:     # Viewing personal information
+                choice = prompt({
+                    "type": "list",
+                    "message" : "",
+                    "choices": [0,"View personal information","Edit personal information", "Access registered classes", "Modiying the list of registered classes (add/remove)","Obtain a list of all professors within the department of the students major"]
+                })
+                match choice[0]:
+                    case 0:
+                        break
+
+                    case "View personal information":     # Viewing personal information
                         view_personal_info(UID=UID)
 
-                    case 2:     # Editing personal information by calling the edit_personal_info() function declared in this file
+                    case "Edit personal information":     # Editing personal information by calling the edit_personal_info() function declared in this file
                         edit_success = edit_personal_info(UID=UID)
                         while (edit_success==0):
                             print("Error adding information, try again.\n")
                             edit_success = edit_personal_info(UID=UID)
                         print("Personal information successfully editted\n")
                     
-                    case 3:     # Viewing registered classes
+                    case "Access registered classes":     # Viewing registered classes
                         view_registered_classes(UID=UID)
 
-                    case 4:     # Modiying classes list
+                    case "Modiying the list of registered classes (add/remove)":     # Modiying classes list
                         edit_registered_classes(UID=UID)
                         
 
-                    case 5:     # Viewing all professors within the department
+                    case "Obtain a list of all professors within the department of the students major":     # Viewing all professors within the department
                         list_professors(UID=UID)
 
                     case __:        # Default

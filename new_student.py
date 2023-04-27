@@ -41,16 +41,16 @@ def check_password(ToCheck):        # return 0 is password does not meet require
                 containsSpecial = 1
             if (ToCheck[i].isdigit()):      # Digit
                 containsDigit = 1
-
+            i += 1
             password_success = (containsCapital and containsSpecial and containsDigit)
             if (password_success):
                 break
-
+            
     return password_success
 
 
 # Inserting the new user into the database
 def create_new(UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, password,phone_number,address):      # void function??
     cursor.execute("INSERT INTO Students VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-                        (UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, password, phone_number, address))
-    cursor.commit()
+                        [UID, first_name, last_name, DOB, GPA, major_ID, undergraduate, class_standing, email, password, phone_number, address])
+    conn.commit()
